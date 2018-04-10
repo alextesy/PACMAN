@@ -6,22 +6,36 @@
         <script src = "jquery.js"></script>
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-        <script src = "tomloprodModal.js"></script>
+        
         <!--<script src = "javascript.js"></script>-->
 
         <link rel="stylesheet" type="text/css" href="style.css" />
-        <link rel="stylesheet" type="text/css" href="tomloprodModal.css" />
+        <link rel="stylesheet" type="text/css" href="model.css" />
+       
 
     </head>
     
+
+
     <body>
         <div id="menu">
                 <li><a href="javascript:wellcome()">Wellcome</a></li>
                 <li><a href="javascript:register()">Register</a></li>
                 <li><a href="javascript:login()">Login</a></li>
-                <li><a href="javascript:about()">about</a></li>
+                <li><a id = "about" onclick="modelopen()" href="#">about</a></li>
         </div>      
 
+
+
+        <div id="myModal" class="modal">
+
+                <!-- Modal content -->
+                <div class="modal-content">
+                  <span class="close">&times;</span>
+                  <p>Some text in the Modal..</p>
+                </div>
+              
+              </div>
 
         <div id="wrapper">
         <div id="wellcome">
@@ -77,25 +91,6 @@
                     <input type="submit" value="Log In!">
                 </form>
         </div>
-        <div id="about">
-                <div class="tm-modal tm-effect tm-draggable" id="logInPopUp">
-                        <div class="tm-wrapper">
-                            <div class="tm-title">
-                                <span class="tm-XButton tm-closeButton"></span>  
-                                <h3 class="tm-title-text">Lorem Ipsum...</h3> 
-                            </div>
-                            <div class="tm-content" >
-                                <div style="text-align:center">
-                                    <img width="250" src="http://s3.favim.com/orig/47/animal-cat-cute-kitty-surprise-Favim.com-434324.jpg"/>
-                                </div>
-                                <p>
-                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-        </div>
-
         <div id="game">
         </br>
         </br>
