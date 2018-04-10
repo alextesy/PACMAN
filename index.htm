@@ -2,41 +2,108 @@
 <html>
     
     <head>
-<<<<<<< HEAD
-            <script type="text/javascript" src="jquery.js" ></script>
-            <script type="text/javascript" src="game.js" ></script>
-            <script type="text/javascript" src="javascript.js" ></script>
-
-=======
      
         <script src = "jquery.js"></script>
-         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
         <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
-        <script src = "javascript.js"></script>
->>>>>>> cbbf66e9430ca87f83e69861801fc9ff1cb94221
+        <script src = "tomloprodModal.js"></script>
+        <!--<script src = "javascript.js"></script>-->
+
+        <link rel="stylesheet" type="text/css" href="style.css" />
+        <link rel="stylesheet" type="text/css" href="tomloprodModal.css" />
 
     </head>
     
     <body>
-<<<<<<< HEAD
+        <div id="menu">
+                <li><a href="javascript:wellcome()">Wellcome</a></li>
+                <li><a href="javascript:register()">Register</a></li>
+                <li><a href="javascript:login()">Login</a></li>
+                <li><a href="javascript:about()">about</a></li>
+        </div>      
+
+
         <div id="wrapper">
         <div id="wellcome">
+            </br>
+            </br>
+            </br>
+            </br>
+            </br>
+        
             <button onclick="login()" id="buttonLogin">Log In!</button>
-            <button onclick="" id="buttonRegister">Register!</button>
+            <button onclick="register()" id="buttonRegister">Register!</button>
         </div>
-        <div id="register">
+        <div id="registerdiv">
+            </br>
+            </br>
+            </br>
+            </br>
+            </br>
+                <form action="javascript:submit()" name="registration">
 
+                        <label for="username">username</label>
+                        <input type="text" name="username" id="username" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;">
+
+                        <label for="password">Password</label>
+                        <input type="password" name="password" id="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;">
+
+                        <label for="firstname">First Name</label>
+                        <input type="text" name="firstname" id="firstname" placeholder="John">
+                    
+                        <label for="lastname">Last Name</label>
+                        <input type="text" name="lastname" id="lastname" placeholder="Doe">
+                    
+                        <label for="email">Email</label>
+                        <input type="email" name="email" id="email" placeholder="john@doe.com">
+
+                                 
+                        <label for="birthday">birthday</label>
+                        <input type="date" name="birthday" id="birthday" placeholder="">
+                    
+                        <input type="submit">Register</input>
+                      </form>
+                    
         </div>
         <div id="login">
+            </br>
+            </br>
+            </br>
+            </br>
+            </br>
                 <form action="javascript:checkUser()">
                     User name: <input type="text" id="userName" value="Mickey"><br>
                     Password: <input type="text" id="passWord" value="Mouse"><br>
                     <input type="submit" value="Log In!">
                 </form>
         </div>
-        <div id="about"></div>
+        <div id="about">
+                <div class="tm-modal tm-effect tm-draggable" id="logInPopUp">
+                        <div class="tm-wrapper">
+                            <div class="tm-title">
+                                <span class="tm-XButton tm-closeButton"></span>  
+                                <h3 class="tm-title-text">Lorem Ipsum...</h3> 
+                            </div>
+                            <div class="tm-content" >
+                                <div style="text-align:center">
+                                    <img width="250" src="http://s3.favim.com/orig/47/animal-cat-cute-kitty-surprise-Favim.com-434324.jpg"/>
+                                </div>
+                                <p>
+                                Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+        </div>
 
-        <div id="game">SCORE:
+        <div id="game">
+        </br>
+        </br>
+        </br>
+        </br>
+        </br>
+
+            SCORE:
         <input id="lblScore" type="text" />
         <br/>
         TIME:
@@ -48,52 +115,8 @@
        
          </div>
         </div>
-=======
-        <div id ="wrapper">
-            <div id="wellcome">
-                asdasd
-            </div>
-            <div id="registerdiv">
-                    <form action="javascript:submit()" name="registration">
+        <script src = "javascript.js"></script>
 
-                            <label for="username">username</label>
-                            <input type="text" name="username" id="username" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;">
-
-                            <label for="password">Password</label>
-                            <input type="password" name="password" id="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;">
-
-                            <label for="firstname">First Name</label>
-                            <input type="text" name="firstname" id="firstname" placeholder="John">
-                        
-                            <label for="lastname">Last Name</label>
-                            <input type="text" name="lastname" id="lastname" placeholder="Doe">
-                        
-                            <label for="email">Email</label>
-                            <input type="email" name="email" id="email" placeholder="john@doe.com">
-
-                                     
-                            <label for="birthday">birthday</label>
-                            <input type="text" name="birthday" id="birthday" placeholder="">
-                        
-                            <input type="submit">Register</input>
-                          </form>
-                        
-            </div>
-            <div id="login"></div>
-            <div id="about"></div>
-
-            <div id="game">SCORE:
-                <input id="lblScore" type="text" />
-                <br/>
-                TIME:
-                <input id="lblTime" type="text" />
-                <br/>
-                <canvas id="canvas" height="600" width="600"></canvas>
-                
-          
-            </div>
-            </div>
->>>>>>> cbbf66e9430ca87f83e69861801fc9ff1cb94221
     </body>
 
 </html>

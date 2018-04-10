@@ -1,0 +1,20 @@
+body{
+	background-color: #ECECEA;
+	font-family: 'Caveat Brush', cursive;
+
+}
+#menu
+{
+	z-index: 100;
+	text-align: center;
+	display: inline-block;
+	list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #74AFAD;
+    position: fixed;
+	top: 0;
+	width: 100%;
+	left: 0;
+}
