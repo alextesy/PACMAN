@@ -1,6 +1,12 @@
+@font-face {
+    font-family: pacFont;
+	src: url('resources/font/pacfont.ttf');
+
+}
 body{
-	background-color: #ECECEA;
-	font-family: 'Caveat Brush', cursive;
+	background-color: rgb(66, 40, 40);
+	font-family: pacFont;
+    color: rgb(238, 255, 0);
 
 }
 #menu
@@ -12,10 +18,78 @@ body{
     margin: 0;
     padding: 0;
     overflow: hidden;
-    background-color: #74AFAD;
+    background-color: rgb(0, 0, 0);
     position: fixed;
 	top: 0;
 	width: 100%;
 	left: 0;
+	font-size: 30px;
+}
+li {
+    float: left;
+}
+li a {
+
+	display: block;
+    color: rgb(238, 255, 0);
+    text-align: center;
+    padding: 8px 16px;
+    text-decoration: none;
 }
 
+li a.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+li a:hover:not(.active) {
+    background-color: rgb(245, 229, 3);
+    color: rgb(0, 0, 0);
+}
+
+
+
+@import url(https://fonts.googleapis.com/css?family=VT323);
+
+.btn {
+  background: #7C7C7C;
+  border-bottom: 5px inset rgba(0, 0, 0, 0.5);
+  border-left: 5px inset rgba(0, 0, 0, 0.5);
+  border-right: 5px inset rgba(255, 255, 255, 0.5);
+  border-top: 5px inset rgba(255, 255, 255, 0.5);
+  box-sizing: border-box;
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 2rem;
+  margin: 1rem;
+  max-width: 320px;
+  padding: .5rem;
+  text-shadow: 0px 0px 5px #000;
+  text-transform: uppercase;
+  width: 100%;
+}
+.btn:focus, .btn:hover {
+  background: #BCBCBC;
+}
+
+.btn.primary {
+  background: #881400;
+}
+.btn.primary:focus, .btn.primary:hover {
+  background: #A81000;
+}
+
+.btn.secondary {
+  background: #005800;
+}
+.btn.secondary:focus, .btn.secondary:hover {
+  background: #006800;
+}
+
+.btn.tertiary {
+  background: #0000BC;
+}
+.btn.tertiary:focus, .btn.tertiary:hover {
+  background: #0000FC;
+}
