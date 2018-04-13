@@ -3,14 +3,24 @@
 	src: url('resources/font/pacfont.ttf');
 
 }
+
+@font-face {
+  font-family: arcade;
+src: url('resources/font/arcade.ttf');
+
+}
 body{
 	background-color: rgb(66, 40, 40);
-	font-family: pacFont;
-    color: rgb(238, 255, 0);
+
+}
+#wrapper{
+	font-family: arcade;
+  color: rgb(238, 255, 0);
 
 }
 #menu
 {
+  font-family: pacFont;
 	z-index: 100;
 	text-align: center;
 	display: inline-block;
@@ -26,7 +36,7 @@ body{
 	font-size: 30px;
 }
 li {
-    float: left;
+    display: inline-block;
 }
 li a {
 
@@ -49,9 +59,31 @@ li a:hover:not(.active) {
 
 
 
-@import url(https://fonts.googleapis.com/css?family=VT323);
-
+@font-face {
+  font-family: 'VT323';
+  font-style: normal;
+  font-weight: 400;
+  src: local('VT323 Regular'), local('VT323-Regular'), url(https://fonts.gstatic.com/s/vt323/v9/pxiKyp0ihIEF2isQFJXGdg.woff2) format('woff2');
+  unicode-range: U+0102-0103, U+0110-0111, U+1EA0-1EF9, U+20AB;
+}
+/* latin-ext */
+@font-face {
+  font-family: VT323;
+  font-style: normal;
+  font-weight: 400;
+  src: local('VT323 Regular'), local('VT323-Regular'), url(https://fonts.gstatic.com/s/vt323/v9/pxiKyp0ihIEF2isRFJXGdg.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'VT323';
+  font-style: normal;
+  font-weight: 400;
+  src: local('VT323 Regular'), local('VT323-Regular'), url(https://fonts.gstatic.com/s/vt323/v9/pxiKyp0ihIEF2isfFJU.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
 .btn {
+  font-family: VT323;
   background: #7C7C7C;
   border-bottom: 5px inset rgba(0, 0, 0, 0.5);
   border-left: 5px inset rgba(0, 0, 0, 0.5);

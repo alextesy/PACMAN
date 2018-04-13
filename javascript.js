@@ -206,7 +206,7 @@ function login(){
 
 function checkUser(){
     var nameValue = document.getElementById("userName").value;
-    var passValue=document.getElementById("passWord").value;
+    var passValue=document.getElementById("passWord2").value;
     if(credentials[nameValue]==passValue){
          $("#wrapper").children().hide();
          $("#game").show();
@@ -269,7 +269,7 @@ function register() {
             },
             password: {
             required: "Please provide a passwords",
-            pwcheck:"Please provide words and passwords",
+            pwcheck:"Please provide letters and digits",
             minlength: "Your password must be at least 8 characters long"
             },
             email: "Please enter a valid email address"

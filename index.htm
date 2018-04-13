@@ -11,7 +11,9 @@
         <link rel="stylesheet" type="text/css" href="register.css" />
         <link rel="stylesheet" type="text/css" href="style.css" />
         <link rel="stylesheet" type="text/css" href="model.css" />
-       
+        <link rel="stylesheet" type="text/css" href="wellcome.css" />
+        <link rel="stylesheet" type="text/css" href="login.css" />
+
 
     </head>
     
@@ -28,10 +30,13 @@
                   
             </div>
         <div id="menu">
+                <img src="resources/img/pac.gif" />
                 <li><a href="javascript:wellcome()">Wellcome</a></li>
                 <li><a href="javascript:register()">Register</a></li>
                 <li><a href="javascript:login()">Login</a></li>
                 <li><a id = "about" onclick="modelopen()" href="#">about</a></li>
+                <img src="resources/img/pac2.gif"  />
+
         </div>      
 
 
@@ -40,14 +45,12 @@
 
         <div id="wrapper">
         <div id="wellcome">
-            </br>
-            </br>
-            </br>
-            </br>
-            </br>
-        
-            <button class="btn primary" onclick="login()" id="buttonLogin">Log In!</button>
-            <button class="btn secondary" onclick="register()" id="buttonRegister">Register!</button>
+         <center><table id="butable">
+             <tr>
+                 <td><button class="arcade-button" onclick="login()" id="buttonLogin">Log In!</button></td>
+                 <td> <button class="arcade-button" onclick="register()" id="buttonRegister">Sign Up!</button></td>
+            </tr>
+        </table></center>
         </div>
         <div id="registerdiv">
             </br>
@@ -76,7 +79,7 @@
                         <label for="birthday">Date of Birth</label>
                         <input type="date" name="birthday" id="birthday" placeholder="">
                         </br>
-                        <input type="submit" value="Like"/>
+                        <input type="submit" value="Register" class="btn secondary"/>
                         </br>   
                       </form>
                     
@@ -87,11 +90,11 @@
             </br>
             </br>
             </br>
-                <form action="javascript:checkUser()">
+               <center> <form action="javascript:checkUser()">
                     User name: <input type="text" id="userName" placeholder=""><br>
-                    Password: <input type="text" id="passWord" placeholder=""><br>
-                    <input type="submit" value="Log In!">
-                </form>
+                    Password: <input type="password" id="passWord2" placeholder="" ><br>
+                    <input type="submit" value="Log In!" class="btn secondary">
+                </form></center>
         </div>
         <div id="game">
         </br>
