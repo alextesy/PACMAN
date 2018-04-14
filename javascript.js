@@ -8,8 +8,10 @@
     var start_time;
     var time_elapsed;    
     var interval;
-
-
+    var start_angle=0.15 * Math.PI;
+    var end_angle=1.85 * Math.PI;
+    var eyeX=5;
+    var eyeY=-15;
 
 
 function Start() {
@@ -27,6 +29,10 @@ function Start() {
             if((i==3 && j==3)||(i==3 && j==4)||(i==3 && j==5)||(i==6 && j==1)||(i==6 && j==2))
             {
                 board[i][j] = 4;
+            }
+            else if((i==0 && j==0)||(i==0 && j==9)||(i==9 && j==0)||(i==9 && j==9))
+            {
+                board[i][j] = 3;
             }
             else{
             var randomNum = Math.random();
@@ -53,11 +59,12 @@ function Start() {
     keysDown = {};
     addEventListener("keydown", function (e) {
         keysDown[e.keyCode] = true;
-    }, false);
+    e.preventDefault()}, false);
+
     addEventListener("keyup", function (e) {
         keysDown[e.keyCode] = false;
-    }, false);
-    interval=setInterval(UpdatePosition, 250);
+    e.preventDefault()}, false);
+    interval=setInterval(UpdatePosition, 125);
 }
 
 
@@ -71,23 +78,39 @@ function Start() {
     }
     return [i,j];             
  }
-
+ 
 function GetKeyPressed() {
     if (keysDown[38]) {
-        return 1;
+        end_angle=1.3 * Math.PI;
+        start_angle=1.7 * Math.PI;
+        eyeX=15;
+        eyeY=-10;
+        return 1; /*UP*/ 
     }
-    if (keysDown[40]) { 
-        return 2;
+    if (keysDown[40]) {
+        end_angle=0.35 * Math.PI;
+        start_angle=0.65*Math.PI 
+        eyeX=15;
+        eyeY=15;
+        return 2;/*DOWN */
     }
     if (keysDown[37]) { 
-        return 3;
+        start_angle=1.15 * Math.PI;
+        end_angle=0.85*Math.PI
+        eyeX=-5;
+        eyeY=-15;
+        return 3;/*LEFT */
     }
     if (keysDown[39]) { 
-        return 4;
+        start_angle=0.15 * Math.PI;
+        end_angle=1.85 * Math.PI;
+        eyeX=5;
+        eyeY=-15;
+        return 4;/*RIGHT */
     }
 }
 
-function Draw() {
+function Draw(position) {
     canvas.width=canvas.width; //clean board
     lblScore.value = score;
     lblTime.value = time_elapsed;
@@ -96,14 +119,17 @@ function Draw() {
             var center = new Object();
             center.x = i * 60 + 30;
             center.y = j * 60 + 30;
+           
+            
             if (board[i][j] == 2) {
                 context.beginPath();
-                context.arc(center.x, center.y, 30, 0.15 * Math.PI, 1.85 * Math.PI); // half circle
+                
+                context.arc(center.x, center.y, 30,start_angle , end_angle); // half circle
                 context.lineTo(center.x, center.y);
                 context.fillStyle = pac_color; //color 
                 context.fill();
                 context.beginPath();
-                context.arc(center.x + 5, center.y - 15, 5, 0, 2 * Math.PI); // circle
+                context.arc(center.x + eyeX, center.y +eyeY, 5, 0, 2 * Math.PI); // circle
                 context.fillStyle = "black"; //color 
                 context.fill();
             } else if (board[i][j] == 1) {
@@ -118,11 +144,18 @@ function Draw() {
                 context.fillStyle = "grey"; //color 
                 context.fill();
             }
+            else if(board[i][j]==3){
+                context.beginPath();
+                context.rect(center.x-30, center.y-30,60,60);
+                context.fillStyle = "blue"; //color
+                context.fill();
+            }
         }
     }
 
    
 }
+function pacmanDirection(){}
 
 function UpdatePosition() {
     board[shape.i][shape.j]=0;
@@ -173,7 +206,7 @@ function UpdatePosition() {
     }
     else
     {
-        Draw();
+        Draw(x);
     }
 }
 
