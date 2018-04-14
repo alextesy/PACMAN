@@ -260,11 +260,11 @@ function register() {
             // Specify validation error messages
             messages: {
             firstname:{
-            pattern: "please enter words only",
+            pattern: "please enter letters only",
             required: "Please enter your firstname"
             },
             lastname:{
-            pattern: "please enter words only",
+            pattern: "please enter letters only",
             required: "Please enter your lastname"
             },
             password: {
