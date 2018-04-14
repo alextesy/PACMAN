@@ -12,9 +12,50 @@
     var end_angle=1.85 * Math.PI;
     var eyeX=5;
     var eyeY=-15;
+    var currentPlayer;
+    var mySound = new sound("resources/music/pacman_beginning.wav");
+    var ghost1 = new Object();
+    var ghost2 = new Object();
+    var ghost3 = new Object();
+    var ghost4 = new Object();
+    var clockround = 0 ;
+    var lost = false;
+    var life = 3;
+
+function setupghosts(){
+
+    ghost1.i=0;
+    ghost1.j=0;
+    ghost2.i=0;
+    ghost2.j=9;
+    ghost3.i=9;
+    ghost3.j=0;
+    ghost4.i=9;
+    ghost4.j=9;
+}
+
+    
 
 
+function sound(src) {
+    this.sound = document.createElement("audio");
+    this.sound.src = src;
+    this.sound.setAttribute("preload", "auto");
+    this.sound.setAttribute("controls", "none");
+    this.sound.style.display = "none";
+    document.body.appendChild(this.sound);
+    this.play = function(){
+        this.sound.loop = true;
+        this.sound.play();
+    }
+    this.stop = function(){
+        this.sound.pause();
+    }
+}
 function Start() {
+    mySound.play();
+    setupghosts();
+
     board = new Array();
     score = 0;
     pac_color="yellow";
@@ -52,29 +93,29 @@ function Start() {
             }
     }
     while(food_remain>0){
-        var emptyCell = findRandomEmptyCell(board);
+        var emptyCell = findRandomEmptyCell(board,9,0);
         board[emptyCell[0]][emptyCell[1]] = 1;
         food_remain--;
     }
     keysDown = {};
     addEventListener("keydown", function (e) {
         keysDown[e.keyCode] = true;
-    e.preventDefault()}, false);
+    }, false);
 
     addEventListener("keyup", function (e) {
         keysDown[e.keyCode] = false;
-    e.preventDefault()}, false);
+    }, false);
     interval=setInterval(UpdatePosition, 125);
 }
 
 
- function findRandomEmptyCell(board){
-     var i = Math.floor((Math.random() * 9) + 1);
-     var j = Math.floor((Math.random() * 9) + 1);
+ function findRandomEmptyCell(board,max,min){
+     var i = min+Math.floor((Math.random() * max) + 1);
+     var j = min+Math.floor((Math.random() * max) + 1);
     while(board[i][j]!=0)
     {
-         i = Math.floor((Math.random() * 9) + 1);
-         j = Math.floor((Math.random() * 9) + 1);
+         i = min+Math.floor((Math.random() * max) + 1);
+         j = min+Math.floor((Math.random() * max) + 1);
     }
     return [i,j];             
  }
@@ -112,8 +153,11 @@ function GetKeyPressed() {
 
 function Draw(position) {
     canvas.width=canvas.width; //clean board
+    
     lblScore.value = score;
     lblTime.value = time_elapsed;
+    document.getElementById("lblUsername").innerHTML = currentPlayer[1][1]+' '+currentPlayer[1][2];
+
     for (var i = 0; i < 10; i++) {
         for (var j = 0; j < 10; j++) {
             var center = new Object();
@@ -193,14 +237,33 @@ function UpdatePosition() {
         score++;
     }
     board[shape.i][shape.j]=2;
+    clockround++;   // ghost move each second
+    if(clockround == 3){
+        packdist(ghost1,shape.i,shape.j);
+        packdist(ghost2,shape.i,shape.j);
+        packdist(ghost3,shape.i,shape.j);
+        packdist(ghost4,shape.i,shape.j);
+        clockround=0;
+    }
     var currentTime=new Date();
     time_elapsed=(currentTime-start_time)/1000;
+    if(lost){
+        window.clearInterval(interval);
+        life--;
+        if(life>0){
+            lost=false;
+            Start()
+        }
+        else
+            window.alert("game over!!")
+    }
     if(score>=20&&time_elapsed<=10)
     {
         pac_color="green";
     }
     if(score==50)
     {
+        mySound.stop();
         window.clearInterval(interval);
         window.alert("Game completed");
     }
@@ -209,6 +272,61 @@ function UpdatePosition() {
         Draw(x);
     }
 }
+
+function packdist(ghost,xp,yp){
+    xi = ghost.i;
+    yi = ghost.j;
+    var up = 1000;
+    var down = 1000;
+    var left = 1000;
+    var right = 1000;
+    var min = 999;
+
+    if((yi<9 )&& ( board[xi,yi+1]!=4 ) && (board[xi,yi+1]!=3))
+        up = Math.pow((Math.pow(xi-xp,2)+Math.pow(yi+1-yp,2)),0.5);
+    if((yi>0 )&&( board[xi,yi-1]!=4 )&& (board[xi,yi-1]!=3))
+        down = Math.pow((Math.pow(xi-xp,2)+Math.pow(yi-1-yp,2)),0.5);
+    if((xi>0) && (board[xi-1,yi]!=4 )&& (board[xi-1,yi]!=3))
+        left = Math.pow((Math.pow(xi-xp-1,2)+Math.pow(yi+1-yp,2)),0.5);
+    if((xi<9 )&&( board[xi+1,yi]!=4 )&&( board[xi+1,yi]!=3))
+        right = Math.pow((Math.pow(xi-xp+1,2)+Math.pow(yi+1-yp,2)),0.5);
+    
+    var min = Math.min(min,up,down,left,right);    
+    if(min == up)
+    {
+        board[xi][yi] = 0;
+        if(board[xi][yi+1] ==2)
+            lost = true;
+        board[xi][yi+1] = 3;
+        ghost.j = yi+1; 
+    }
+    if(min == down)
+    {
+        board[xi][yi] = 0;
+        if(board[xi][yi-1] ==2)
+            lost = true;
+        board[xi][yi-1] = 3;
+        ghost.j = yi-1;
+    }
+    if(min == left)
+    {
+        board[xi][yi] = 0;
+        if(board[xi-1][yi] == 2)
+            lost = true;
+        board[xi-1][yi] = 3;
+        ghost.i = xi-1;
+    }
+    if(min == right)
+    {
+        board[xi][yi] = 0;
+        if(board[xi+1][yi] ==2)
+            lost = true;
+        board[xi+1][yi] = 3;
+        ghost.i = xi+1;
+    }
+
+}
+
 
 
 
@@ -221,17 +339,21 @@ function UpdatePosition() {
 
 
 var credentials ={};
-credentials["a"]="a";
+credentials["a"]=["a","a"];
 
 $(document).ready(function (){
     wellcome();
 });
 
 function wellcome() {
+    mySound.stop();
+
     $("#wrapper").children().hide();
     $("#wellcome").show();
 }
 function login(){
+    mySound.stop();
+
     $("#wrapper").children().hide();
     $("#login").show();
 
@@ -240,20 +362,26 @@ function login(){
 function checkUser(){
     var nameValue = document.getElementById("userName").value;
     var passValue=document.getElementById("passWord2").value;
-    if(credentials[nameValue]==passValue){
-         $("#wrapper").children().hide();
-         $("#game").show();
-
-         Start()
-        return;
-     }
-     else
-        alert("Username not right")
-        
+    if(nameValue in credentials){
+        if(credentials[nameValue][0]==passValue){
+            $("#wrapper").children().hide();
+            $("#game").show();
+            currentPlayer=[nameValue,credentials[nameValue]]
+            Start()
+           return;
+        }
+        else
+           alert("Username or Password is not right");
+           
+    }
+    else
+    alert("Username or Password is not right");
     
 }
 
 function register() {
+    mySound.stop();
+
         $('#wrapper').children().hide();
         $('#registerdiv').show();
         $.validator.addMethod("pwcheck", function(value) {
@@ -324,10 +452,14 @@ function register() {
         function submit(){
             var username = document.getElementById('username').value;
             var password = document.getElementById('password').value;
+            var name= document.getElementById('firstname').value;
+            var lastname= document.getElementById('lastname').value;
+            var email= document.getElementById('email').value;
+
             if(!(username in credentials)){
-            credentials[username]=password
+            credentials[username]=[password,name,lastname,email];
             var str=JSON.stringify(credentials);
-            alert("Submitted:"+str);
+            alert("You have been registered successfuly, please procede to login");
             }
             else
             alert("already exist")

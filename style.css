@@ -3,7 +3,14 @@
 	src: url('resources/font/pacfont.ttf');
 
 }
-
+header{
+  font-family: pacFont;
+	z-index: 100;
+	text-align: center;
+  background-color: teal;
+  font-size: 30px;
+  color: yellow
+}
 @font-face {
   font-family: arcade;
 src: url('resources/font/arcade.ttf');
@@ -20,6 +27,7 @@ body{
 }
 #menu
 {
+  top: 0%;
   font-family: pacFont;
 	z-index: 100;
 	text-align: center;
