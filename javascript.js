@@ -4,7 +4,20 @@
     var shape=new Object();
     var movcandy = new Object();
     movcandy.last = 0;
-    var board;
+    var board = 
+    [[0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,4,4,0,0,0,0,4,4,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,4,0,0,0,0,0,0,0,0,4,0],
+    [0,4,0,0,0,4,0,0,0,0,4,0],
+    [0,0,0,0,0,4,0,0,0,0,0,0],
+    [0,0,0,0,0,4,0,0,0,0,0,0],
+    [0,4,0,0,0,4,0,0,0,0,4,0],
+    [0,4,0,0,0,0,0,0,0,0,4,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0],
+    [0,0,4,4,0,0,0,0,4,4,0,0],
+    [0,0,0,0,0,0,0,0,0,0,0,0]];
+    var board_size = board.length;
     var candy = true;
     var score;
     var pac_color;
@@ -34,15 +47,15 @@ function setupghosts(){
     ghost1.last = 0;
     //
     ghost2.i=0;
-    ghost2.j=9;
+    ghost2.j=board_size-1;
     ghost2.last = 0;
     //
-    ghost3.i=9;
+    ghost3.i=board_size-1;
     ghost3.j=0;
     ghost3.last = 0;
     //
-    ghost4.i=9;
-    ghost4.j=9;
+    ghost4.i=board_size-1;
+    ghost4.j=board_size-1;
     ghost4.last = 0;
     
 
@@ -52,7 +65,7 @@ function Pacstartplace(){
     var xi = shape.i;
     var yi = shape.j;
     board[xi][yi] == 0;
-    var cell = findRandomEmptyCell(board,7.9,2);
+    var cell = findRandomEmptyCell(board,board_size-3,2);
     var nxi = cell[0]; 
     var nyi = cell[1];
     shape.i=nxi;
@@ -84,27 +97,28 @@ function Start() {
     mySound.stop();
     setupghosts();
 
-    board = new Array();
+    //board = new Array();
     score = 0;
     pac_color="yellow";
     var cnt = 100;
-    var food_remain = 50;
+    var food_remain = 90;
     var pacman_remain = 1;
     var candy_remain = 1;
     start_time= new Date();
-    for (var i = 0; i < 10; i++) {
-        board[i] = new Array();
+    for (var i = 0; i < board_size; i++) {
+        //board[i] = new Array();
         //put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
-        for (var j = 0; j < 10; j++) {
-            if((i==3 && j==3)||(i==3 && j==4)||(i==3 && j==5)||(i==6 && j==1)||(i==6 && j==2))
+        for (var j = 0; j < board_size; j++) {
+            //if((i==3 && j==3)||(i==3 && j==4)||(i==3 && j==5)||(i==6 && j==1)||(i==6 && j==2))
+            if(board[i][j]==4)
             {
-                board[i][j] = 4;
-            }
-            else if((i==0 && j==0)||(i==0 && j==9)||(i==9 && j==0)||(i==9 && j==9))
+               // dont do nothing;
+            } 
+            else if((i==0 && j==0)||(i==0 && j==board_size-1)||(i==board_size-1 && j==0)||(i==board_size-1 && j==board_size-1))
             {
                 board[i][j] = 3;
             }
-            else{
+            else if(board[i][j] !=4 && board[i][j] !=4 ) {
             var randomNum = Math.random();
             if (randomNum <= 1.0 * food_remain / cnt) {
                 food_remain--;
@@ -117,7 +131,7 @@ function Start() {
                 shape.j=j;
                 pacman_remain--;
                 board[i][j] = 2;
-            } else if (randomNum < 1.0 * (candy_remain + food_remain) / cnt) {
+            } else if (randomNum < 1.0 * (candy_remain+food_remain)/cnt) {
                 movcandy.i=i;
                 movcandy.j=j;
                 candy_remain--;
@@ -128,10 +142,11 @@ function Start() {
             }
             cnt--;
             }
+            
             }
     }
     while(food_remain>0){
-        var emptyCell = findRandomEmptyCell(board,9,0);
+        var emptyCell = findRandomEmptyCell(board,board_size-1,0);
         board[emptyCell[0]][emptyCell[1]] = 1;
         food_remain--;
     }
@@ -196,8 +211,8 @@ function Draw(position) {
     lblTime.value = time_elapsed;
     document.getElementById("lblUsername").innerHTML = currentPlayer[1][1]+' '+currentPlayer[1][2];
 
-    for (var i = 0; i < 10; i++) {
-        for (var j = 0; j < 10; j++) {
+    for (var i = 0; i < board_size; i++) {
+        for (var j = 0; j < board_size; j++) {
             var center = new Object();
             center.x = i * 60 + 30;
             center.y = j * 60 + 30;
@@ -206,7 +221,7 @@ function Draw(position) {
             if (board[i][j] == 2) {
                 context.beginPath();
                 
-                context.arc(center.x, center.y, 30,start_angle , end_angle); // half circle
+                context.arc(center.x, center.y, 20,start_angle , end_angle); // half circle
                 context.lineTo(center.x, center.y);
                 context.fillStyle = pac_color; //color 
                 context.fill();
@@ -216,7 +231,7 @@ function Draw(position) {
                 context.fill();
             } else if (board[i][j] == 1) {
                 context.beginPath();
-                context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+                context.arc(center.x, center.y, 12, 0, 2 * Math.PI); // circle
                 context.fillStyle = "black"; //color 
                 context.fill();
             }
@@ -228,19 +243,19 @@ function Draw(position) {
             }
             else if(board[i][j]==3){
                 context.beginPath();
-                context.rect(center.x-30, center.y-30,60,60);
+                context.rect(center.x-30, center.y-30,40,40);
                 context.fillStyle = "blue"; //color
                 context.fill();
             }
             else if(board[i][j]==5){
                 context.beginPath();
-                context.rect(center.x-30, center.y-30,60,60);
+                context.rect(center.x-30, center.y-30,40,40);
                 context.fillStyle = "red"; //color
                 context.fill();
             }
             else if(board[i][j]==6){
                 context.beginPath();
-                context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+                context.arc(center.x, center.y, 12, 0, 2 * Math.PI); // circle
                 context.fillStyle = "green"; //color 
                 context.fill();
             }
@@ -263,7 +278,7 @@ function UpdatePosition() {
     }
     if(x==2)
     {
-        if(shape.j<9 && board[shape.i][shape.j+1]!=4)
+        if(shape.j<board_size-1 && board[shape.i][shape.j+1]!=4)
         {
             shape.j++;
         }
@@ -277,7 +292,7 @@ function UpdatePosition() {
     }
     if(x==4)
     {
-        if(shape.i<9 && board[shape.i+1][shape.j]!=4)
+        if(shape.i<board_size-1 && board[shape.i+1][shape.j]!=4)
         {
             shape.i++;
         }
@@ -351,7 +366,7 @@ function move_candy(movcandy){
     yi = movcandy.j;
     var array = [];
     
-    if((yi<9 )&&( board[xi][yi+1]!= 4 ) && (board[xi][yi+1]!= 3)&& (board[xi][yi+1]!= 2)){
+    if((yi<board_size-1 )&&( board[xi][yi+1]!= 4 ) && (board[xi][yi+1]!= 3)&& (board[xi][yi+1]!= 2)){
         array.push('down');
     }
     if((yi>0 )&&( board[xi][yi-1]!= 4 )&& (board[xi][yi-1]!= 3)&& (board[xi][yi-1]!= 2)){
@@ -360,7 +375,7 @@ function move_candy(movcandy){
     if((xi>0) && (board[xi-1][yi]!= 4 )&& (board[xi-1][yi]!= 3)&& (board[xi-1][yi]!= 2)){
         array.push('left');
     }
-    if((xi<9 )&&( board[xi+1][yi]!= 4 )&&( board[xi+1][yi]!= 3)&& (board[xi-1][yi]!= 2)){
+    if((xi<board_size-1 )&&( board[xi+1][yi]!= 4 )&&( board[xi+1][yi]!= 3)&& (board[xi+1][yi]!= 2)){
         array.push('right');
     }
 
@@ -413,7 +428,7 @@ function packdist(ghost,xp,yp){
     var min = 999;
     var array = [];
     
-    if((yi<9 )&&( board[xi][yi+1]!=4 ) && (board[xi][yi+1]!=3)&& (board[xi][yi+1]!=5)){
+    if((yi<board_size-1)&&( board[xi][yi+1]!=4 ) && (board[xi][yi+1]!=3)&& (board[xi][yi+1]!=5)){
         down = Math.pow((Math.pow(xi-xp,2)+Math.pow(yi+1-yp,2)),0.5);
         array.push(down);
     }
@@ -425,7 +440,7 @@ function packdist(ghost,xp,yp){
         left = Math.pow((Math.pow(xi-xp-1,2)+Math.pow(yi-yp,2)),0.5);
         array.push(left);
     }
-    if((xi<9 )&&( board[xi+1][yi]!=4 )&&( board[xi+1][yi]!=3) && (board[xi+1][yi]!=5)){
+    if((xi<board_size-1)&&( board[xi+1][yi]!=4 )&&( board[xi+1][yi]!=3) && (board[xi+1][yi]!=5)){
         right = Math.pow((Math.pow(xi-xp+1,2)+Math.pow(yi-yp,2)),0.5);
         array.push(right);
     }
