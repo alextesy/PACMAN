@@ -52,17 +52,13 @@ function Pacstartplace(){
     var xi = shape.i;
     var yi = shape.j;
     board[xi][yi] == 0;
-   
-    while(true){
-        var nxi = Math.floor(Math.random()*10); 
-        var nyi = Math.floor(Math.random()*10);
-        if(board[nxi][nyi]!=3 && board[nxi][nyi]!=4)
-            {
-                shap.i=nxi;
-                shap.j=nyi;
-                break;
-            }
-    }
+    var cell = findRandomEmptyCell(board,7.9,2);
+    var nxi = cell[0]; 
+    var nyi = cell[1];
+    shape.i=nxi;
+    shape.j=nyi;
+    board[nxi][nyi] == 2;
+    
 }
     
 
@@ -83,6 +79,7 @@ function sound(src) {
     }
 }
 function Start() {
+    funcLife();
     mySound.play();
     mySound.stop();
     setupghosts();
@@ -310,13 +307,15 @@ function UpdatePosition() {
     if(lost){
        
         life--;
+        funcLife();
+
         if(life>0){
             lost=false;
             board[ghost1.i][ghost1.j]=0;
             board[ghost2.i][ghost2.j]=0;
             board[ghost3.i][ghost3.j]=0;
             board[ghost4.i][ghost4.j]=0;
-            //Pacstartplace();
+            Pacstartplace();
             setupghosts();
             
         }
@@ -330,8 +329,8 @@ function UpdatePosition() {
         pac_color="green";
     }
     if(time_elapsed>gametime){
-        window.clearInterval(interval);
-        window.alert("You can do better!!");
+        //window.clearInterval(interval);
+        //window.alert("You can do better!!");
 
     }
     if(score==50)
@@ -352,16 +351,16 @@ function move_candy(movcandy){
     yi = movcandy.j;
     var array = [];
     
-    if((yi<9 )&&( board[xi][yi+1]!=4 ) && (board[xi][yi+1]!=3)){
+    if((yi<9 )&&( board[xi][yi+1]!= 4 ) && (board[xi][yi+1]!= 3)){
         array.push('down');
     }
-    if((yi>0 )&&( board[xi][yi-1]!=4 )&& (board[xi][yi-1]!=3)){
+    if((yi>0 )&&( board[xi][yi-1]!= 4 )&& (board[xi][yi-1]!= 3)){
         array.push('up');
     }
-    if((xi>0) && (board[xi-1][yi]!=4 )&& (board[xi-1][yi]!=3)){
+    if((xi>0) && (board[xi-1][yi]!= 4 )&& (board[xi-1][yi]!= 3)){
         array.push('left');
     }
-    if((xi<9 )&&( board[xi+1][yi]!=4 )&&( board[xi+1][yi]!=3)){
+    if((xi<9 )&&( board[xi+1][yi]!= 4 )&&( board[xi+1][yi]!= 3)){
         array.push('right');
     }
 
@@ -414,19 +413,19 @@ function packdist(ghost,xp,yp){
     var min = 999;
     var array = [];
     
-    if((yi<9 )&&( board[xi][yi+1]!=4 ) && (board[xi][yi+1]!=3)){
+    if((yi<9 )&&( board[xi][yi+1]!=4 ) && (board[xi][yi+1]!=3)&& (board[xi][yi+1]!=5)){
         down = Math.pow((Math.pow(xi-xp,2)+Math.pow(yi+1-yp,2)),0.5);
         array.push(down);
     }
-    if((yi>0 )&&( board[xi][yi-1]!=4 )&& (board[xi][yi-1]!=3)){
+    if((yi>0 )&&( board[xi][yi-1]!=4 )&& (board[xi][yi-1]!=3)&& (board[xi][yi-1]!=5)){
         up = Math.pow((Math.pow(xi-xp,2)+Math.pow(yi-1-yp,2)),0.5);
         array.push(up);
     }
-    if((xi>0) && (board[xi-1][yi]!=4 )&& (board[xi-1][yi]!=3)){
+    if((xi>0) && (board[xi-1][yi]!=4 )&& (board[xi-1][yi]!=3) && (board[xi-1][yi]!=5)){
         left = Math.pow((Math.pow(xi-xp-1,2)+Math.pow(yi-yp,2)),0.5);
         array.push(left);
     }
-    if((xi<9 )&&( board[xi+1][yi]!=4 )&&( board[xi+1][yi]!=3)){
+    if((xi<9 )&&( board[xi+1][yi]!=4 )&&( board[xi+1][yi]!=3) && (board[xi+1][yi]!=5)){
         right = Math.pow((Math.pow(xi-xp+1,2)+Math.pow(yi-yp,2)),0.5);
         array.push(right);
     }
@@ -647,6 +646,14 @@ function register() {
         }
         }
 
+        function funcLife(){
+            $('#life').empty();
+            for(var i=0;i<life;i++){
+                var DOM_img = document.createElement('img');
+                DOM_img.src = "resources/img/life.png";
+                document.getElementById("life").appendChild(DOM_img);
+            }
         
+        }
                 
       
