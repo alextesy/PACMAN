@@ -2,12 +2,16 @@
     var canvas = document.getElementById("canvas");
     var context = canvas.getContext("2d");
     var shape=new Object();
+    var movcandy = new Object();
+    movcandy.last = 0;
     var board;
+    var candy = true;
     var score;
     var pac_color;
     var start_time;
     var time_elapsed;    
     var interval;
+    var gametime = 60;
     var start_angle=0.15 * Math.PI;
     var end_angle=1.85 * Math.PI;
     var eyeX=5;
@@ -24,16 +28,42 @@
 
 function setupghosts(){
 
+    //
     ghost1.i=0;
     ghost1.j=0;
+    ghost1.last = 0;
+    //
     ghost2.i=0;
     ghost2.j=9;
+    ghost2.last = 0;
+    //
     ghost3.i=9;
     ghost3.j=0;
+    ghost3.last = 0;
+    //
     ghost4.i=9;
     ghost4.j=9;
+    ghost4.last = 0;
+    
+
 }
 
+function Pacstartplace(){
+    var xi = shape.i;
+    var yi = shape.j;
+    board[xi][yi] == 0;
+   
+    while(true){
+        var nxi = Math.floor(Math.random()*10); 
+        var nyi = Math.floor(Math.random()*10);
+        if(board[nxi][nyi]!=3 && board[nxi][nyi]!=4)
+            {
+                shap.i=nxi;
+                shap.j=nyi;
+                break;
+            }
+    }
+}
     
 
 
@@ -54,6 +84,7 @@ function sound(src) {
 }
 function Start() {
     mySound.play();
+    mySound.stop();
     setupghosts();
 
     board = new Array();
@@ -62,6 +93,7 @@ function Start() {
     var cnt = 100;
     var food_remain = 50;
     var pacman_remain = 1;
+    var candy_remain = 1;
     start_time= new Date();
     for (var i = 0; i < 10; i++) {
         board[i] = new Array();
@@ -79,13 +111,22 @@ function Start() {
             var randomNum = Math.random();
             if (randomNum <= 1.0 * food_remain / cnt) {
                 food_remain--;
-                board[i][j] = 1;
+                if(Math.random()<0.1)
+                    board[i][j] = 6;
+                else        
+                    board[i][j] = 1;
             } else if (randomNum < 1.0 * (pacman_remain + food_remain) / cnt) {
                 shape.i=i;
                 shape.j=j;
                 pacman_remain--;
                 board[i][j] = 2;
-            } else {
+            } else if (randomNum < 1.0 * (candy_remain + food_remain) / cnt) {
+                movcandy.i=i;
+                movcandy.j=j;
+                candy_remain--;
+                board[i][j] = 5; 
+            }
+            else {
                 board[i][j] = 0;
             }
             cnt--;
@@ -194,6 +235,18 @@ function Draw(position) {
                 context.fillStyle = "blue"; //color
                 context.fill();
             }
+            else if(board[i][j]==5){
+                context.beginPath();
+                context.rect(center.x-30, center.y-30,60,60);
+                context.fillStyle = "red"; //color
+                context.fill();
+            }
+            else if(board[i][j]==6){
+                context.beginPath();
+                context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+                context.fillStyle = "green"; //color 
+                context.fill();
+            }
         }
     }
 
@@ -236,30 +289,50 @@ function UpdatePosition() {
     {
         score++;
     }
+    if(board[shape.i][shape.j]==5)
+    {   
+        candy = false;
+        // add 
+    }
     board[shape.i][shape.j]=2;
     clockround++;   // ghost move each second
-    if(clockround == 3){
+    if(clockround == 4){
         packdist(ghost1,shape.i,shape.j);
         packdist(ghost2,shape.i,shape.j);
         packdist(ghost3,shape.i,shape.j);
         packdist(ghost4,shape.i,shape.j);
+        if(candy)
+            move_candy(movcandy);
         clockround=0;
     }
     var currentTime=new Date();
     time_elapsed=(currentTime-start_time)/1000;
     if(lost){
-        window.clearInterval(interval);
+       
         life--;
         if(life>0){
             lost=false;
-            Start()
+            board[ghost1.i][ghost1.j]=0;
+            board[ghost2.i][ghost2.j]=0;
+            board[ghost3.i][ghost3.j]=0;
+            board[ghost4.i][ghost4.j]=0;
+            //Pacstartplace();
+            setupghosts();
+            
         }
-        else
-            window.alert("game over!!")
+        else{
+            window.clearInterval(interval);
+            window.alert("You Lost!!");
+        }
     }
     if(score>=20&&time_elapsed<=10)
     {
         pac_color="green";
+    }
+    if(time_elapsed>gametime){
+        window.clearInterval(interval);
+        window.alert("You can do better!!");
+
     }
     if(score==50)
     {
@@ -273,6 +346,64 @@ function UpdatePosition() {
     }
 }
 
+
+function move_candy(movcandy){
+    xi = movcandy.i;
+    yi = movcandy.j;
+    var array = [];
+    
+    if((yi<9 )&&( board[xi][yi+1]!=4 ) && (board[xi][yi+1]!=3)){
+        array.push('down');
+    }
+    if((yi>0 )&&( board[xi][yi-1]!=4 )&& (board[xi][yi-1]!=3)){
+        array.push('up');
+    }
+    if((xi>0) && (board[xi-1][yi]!=4 )&& (board[xi-1][yi]!=3)){
+        array.push('left');
+    }
+    if((xi<9 )&&( board[xi+1][yi]!=4 )&&( board[xi+1][yi]!=3)){
+        array.push('right');
+    }
+
+    
+    var move = array[Math.floor(Math.random()*array.length)];
+
+    if(move == 'down')
+    {
+            board[xi][yi] = movcandy.last; 
+            if((board[xi][yi+1]!=3 )&& (board[xi][yi+1]!=4))
+                movcandy.last = board[xi][yi+1];
+            board[xi][yi+1] = 5;
+            movcandy.j = yi+1; 
+    }
+    else if(move == 'up')
+    {
+            board[xi][yi] = movcandy.last; 
+            if((board[xi][yi-1]!=3) &&(board[xi][yi-1]!=4))    
+                movcandy.last = board[xi][yi-1];
+            board[xi][yi-1] = 5;
+            movcandy.j = yi-1;
+    }
+    else if(move == 'left')
+    {
+            board[xi][yi] = movcandy.last; 
+            if((board[xi-1][yi] !=3)&&(board[xi-1][yi]!=4))
+                movcandy.last = board[xi-1][yi];
+            board[xi-1][yi] = 5;
+            movcandy.i = xi-1;
+    }
+    else if(move == 'right')
+    {
+            board[xi][yi] = movcandy.last; ;
+            if((board[xi+1][yi]!=3 )&& (board[xi+1][yi]!=4))            
+                movcandy.last = board[xi+1][yi];
+            board[xi+1][yi] = 5;
+            movcandy.i = xi+1;
+    }
+  
+}
+
+
 function packdist(ghost,xp,yp){
     xi = ghost.i;
     yi = ghost.j;
@@ -281,50 +412,74 @@ function packdist(ghost,xp,yp){
     var left = 1000;
     var right = 1000;
     var min = 999;
-
-    if((yi<9 )&& ( board[xi,yi+1]!=4 ) && (board[xi,yi+1]!=3))
-        up = Math.pow((Math.pow(xi-xp,2)+Math.pow(yi+1-yp,2)),0.5);
-    if((yi>0 )&&( board[xi,yi-1]!=4 )&& (board[xi,yi-1]!=3))
-        down = Math.pow((Math.pow(xi-xp,2)+Math.pow(yi-1-yp,2)),0.5);
-    if((xi>0) && (board[xi-1,yi]!=4 )&& (board[xi-1,yi]!=3))
-        left = Math.pow((Math.pow(xi-xp-1,2)+Math.pow(yi+1-yp,2)),0.5);
-    if((xi<9 )&&( board[xi+1,yi]!=4 )&&( board[xi+1,yi]!=3))
-        right = Math.pow((Math.pow(xi-xp+1,2)+Math.pow(yi+1-yp,2)),0.5);
+    var array = [];
     
-    var min = Math.min(min,up,down,left,right);    
-    if(min == up)
-    {
-        board[xi][yi] = 0;
-        if(board[xi][yi+1] ==2)
-            lost = true;
-        board[xi][yi+1] = 3;
-        ghost.j = yi+1; 
+    if((yi<9 )&&( board[xi][yi+1]!=4 ) && (board[xi][yi+1]!=3)){
+        down = Math.pow((Math.pow(xi-xp,2)+Math.pow(yi+1-yp,2)),0.5);
+        array.push(down);
     }
+    if((yi>0 )&&( board[xi][yi-1]!=4 )&& (board[xi][yi-1]!=3)){
+        up = Math.pow((Math.pow(xi-xp,2)+Math.pow(yi-1-yp,2)),0.5);
+        array.push(up);
+    }
+    if((xi>0) && (board[xi-1][yi]!=4 )&& (board[xi-1][yi]!=3)){
+        left = Math.pow((Math.pow(xi-xp-1,2)+Math.pow(yi-yp,2)),0.5);
+        array.push(left);
+    }
+    if((xi<9 )&&( board[xi+1][yi]!=4 )&&( board[xi+1][yi]!=3)){
+        right = Math.pow((Math.pow(xi-xp+1,2)+Math.pow(yi-yp,2)),0.5);
+        array.push(right);
+    }
+    
+    var min = Math.min(min,up,down,left,right);
+    //pop randon leagail move
+    if(min >=3){
+
+        min = array[Math.floor(Math.random()*array.length)];
+    }
+  
+    
     if(min == down)
     {
-        board[xi][yi] = 0;
-        if(board[xi][yi-1] ==2)
-            lost = true;
-        board[xi][yi-1] = 3;
-        ghost.j = yi-1;
+            board[xi][yi] = ghost.last; 
+            if(board[xi][yi+1] ==2 )
+                lost = true;
+            if((board[xi][yi+1]!=3 )&& (board[xi][yi+1]!=4))
+                ghost.last = board[xi][yi+1];
+            board[xi][yi+1] = 3;
+            ghost.j = yi+1; 
     }
-    if(min == left)
+    else if(min == up)
     {
-        board[xi][yi] = 0;
-        if(board[xi-1][yi] == 2)
-            lost = true;
-        board[xi-1][yi] = 3;
-        ghost.i = xi-1;
+            board[xi][yi] = ghost.last;
+            if(board[xi][yi-1] == 2)
+                lost= true;
+            if((board[xi][yi-1]!=3) &&(board[xi][yi-1]!=4))    
+                ghost.last = board[xi][yi-1];
+            board[xi][yi-1] = 3;
+            ghost.j = yi-1;
     }
-    if(min == right)
+    else if(min == left)
     {
-        board[xi][yi] = 0;
-        if(board[xi+1][yi] ==2)
-            lost = true;
-        board[xi+1][yi] = 3;
-        ghost.i = xi+1;
+            board[xi][yi] = ghost.last;
+            if(board[xi-1][yi]==2)
+                lost = true;
+            if((board[xi-1][yi] !=3)&&(board[xi-1][yi]!=4))
+                ghost.last = board[xi-1][yi];
+            board[xi-1][yi] = 3;
+            ghost.i = xi-1;
     }
-
+    else if(min == right)
+    {
+            board[xi][yi] = ghost.last;
+            if(board[xi+1][yi]==2)
+                lost = true;
+            if((board[xi+1][yi]!=3 )&& (board[xi+1][yi]!=4))            
+                ghost.last = board[xi+1][yi];
+            board[xi+1][yi] = 3;
+            ghost.i = xi+1;
+    }
+        
 }
 
 
