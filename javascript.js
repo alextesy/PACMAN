@@ -351,16 +351,16 @@ function move_candy(movcandy){
     yi = movcandy.j;
     var array = [];
     
-    if((yi<9 )&&( board[xi][yi+1]!= 4 ) && (board[xi][yi+1]!= 3)){
+    if((yi<9 )&&( board[xi][yi+1]!= 4 ) && (board[xi][yi+1]!= 3)&& (board[xi][yi+1]!= 2)){
         array.push('down');
     }
-    if((yi>0 )&&( board[xi][yi-1]!= 4 )&& (board[xi][yi-1]!= 3)){
+    if((yi>0 )&&( board[xi][yi-1]!= 4 )&& (board[xi][yi-1]!= 3)&& (board[xi][yi-1]!= 2)){
         array.push('up');
     }
-    if((xi>0) && (board[xi-1][yi]!= 4 )&& (board[xi-1][yi]!= 3)){
+    if((xi>0) && (board[xi-1][yi]!= 4 )&& (board[xi-1][yi]!= 3)&& (board[xi-1][yi]!= 2)){
         array.push('left');
     }
-    if((xi<9 )&&( board[xi+1][yi]!= 4 )&&( board[xi+1][yi]!= 3)){
+    if((xi<9 )&&( board[xi+1][yi]!= 4 )&&( board[xi+1][yi]!= 3)&& (board[xi-1][yi]!= 2)){
         array.push('right');
     }
 
@@ -501,13 +501,13 @@ $(document).ready(function (){
 
 function wellcome() {
     mySound.stop();
-
+    window.clearInterval(interval);
     $("#wrapper").children().hide();
     $("#wellcome").show();
 }
 function login(){
     mySound.stop();
-
+    window.clearInterval(interval);
     $("#wrapper").children().hide();
     $("#login").show();
 
@@ -535,7 +535,7 @@ function checkUser(){
 
 function register() {
     mySound.stop();
-
+    window.clearInterval(interval);
         $('#wrapper').children().hide();
         $('#registerdiv').show();
         $.validator.addMethod("pwcheck", function(value) {
