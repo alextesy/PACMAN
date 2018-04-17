@@ -92,6 +92,8 @@ function sound(src) {
     }
 }
 function Start() {
+    $("#wrapper").children().hide();
+    $("#game").show();
     funcLife();
     mySound.play();
     mySound.stop();
@@ -533,10 +535,9 @@ function checkUser(){
     var passValue=document.getElementById("passWord2").value;
     if(nameValue in credentials){
         if(credentials[nameValue][0]==passValue){
-            $("#wrapper").children().hide();
-            $("#game").show();
+            loginSuccess();
+
             currentPlayer=[nameValue,credentials[nameValue]]
-            Start()
            return;
         }
         else
@@ -547,7 +548,72 @@ function checkUser(){
     alert("Username or Password is not right");
     
 }
+function loginSuccess(){
+    var login=document.getElementById('login');
+    var buttonGame = document.createElement('button');
+    var buttonSetup = document.createElement('button');
+    buttonGame.className="btn  primary ";
+    buttonSetup.className="btn tertiary";
+    buttonGame.textContent='Default Start';
+    buttonGame.id='buttonGame';
+    buttonSetup.textContent='Setup';
+    buttonSetup.id='buttonSetup';
+    buttonGame.setAttribute
+    login.appendChild(buttonGame);
+    login.appendChild(buttonSetup);
+    document.getElementById("buttonGame").onclick = function() {
+        Start();
+      };
+      document.getElementById("buttonSetup").onclick = function() {
+        var login=document.getElementById('login');
+            
+        var form = document.createElement('form');
+        form.id='setupForm';
+        form.setAttribute('action', 'javascript:Setup()');
+        
 
+        var input1 = document.createElement('input');
+        input1.setAttribute('type', 'text');
+        input1.setAttribute('placeholder', 'Name');
+        input1.setAttribute('name', 'routename');
+        input1.setAttribute('id', 'numofBalls');
+
+        var Color1 = document.createElement('input');
+        Color1.setAttribute('type', 'color');
+        Color1.setAttribute('placeholder', 'description');
+        Color1.setAttribute('name', 'routedescription');
+        Color1.setAttribute('id', 'Color1');
+
+        var Color2 = document.createElement('input');
+        Color2.setAttribute('type', 'color');
+        Color2.setAttribute('placeholder', 'tags');
+        Color2.setAttribute('name', 'routetags');
+        Color2.setAttribute('id', 'Color2');
+
+        var Color3 = document.createElement('input');
+        Color3.setAttribute('type', 'color');
+        Color3.setAttribute('placeholder', 'tags');
+        Color3.setAttribute('name', 'routetags');
+        Color3.setAttribute('id', 'Color3');
+
+        var submit = document.createElement('input');
+        submit.setAttribute('type', 'submit');
+        submit.setAttribute("value", "Save");
+        submit.setAttribute('id', 'savebutton');
+
+        form.appendChild(input1);
+        form.appendChild(document.createElement('br'))
+        form.appendChild(Color1);
+        form.appendChild(document.createElement('br'))
+        form.appendChild(Color2);
+        form.appendChild(document.createElement('br'))
+        form.appendChild(Color3);     
+        form.appendChild(document.createElement('br'))
+        form.appendChild(submit);     
+
+        login.appendChild(form);
+    };
+}
 function register() {
     mySound.stop();
     window.clearInterval(interval);
