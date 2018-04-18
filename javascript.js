@@ -130,6 +130,7 @@ function sound(src) {
     }
 }
 function Start() {
+    window.clearInterval(interval);
     $("#wrapper").children().hide();
     $("#game").show();
     funcLife();
