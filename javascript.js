@@ -24,40 +24,62 @@
     var start_time;
     var time_elapsed;    
     var interval;
-    var gametime = 60;
+    
     var start_angle=0.15 * Math.PI;
     var end_angle=1.85 * Math.PI;
     var eyeX=5;
     var eyeY=-15;
+//setup game: 
+    var food_remain = 90;
+    var gametime = 60;
+    var ghostnum =3;
+    var ghostarr;
+    var color1;
+    var color2;
+    var color3;
+    setupgame(3,90,60,"black","yellow","green");
     var currentPlayer;
     var mySound = new sound("resources/music/pacman_beginning.wav");
-    var ghost1 = new Object();
-    var ghost2 = new Object();
-    var ghost3 = new Object();
-    var ghost4 = new Object();
     var clockround = 0 ;
     var lost = false;
     var life = 3;
 
+function setupgame(ghostnum,foodnum,time,color1,color2,color3){
+
+    this.ghostnum =ghostnum;
+    food_remain = foodnum;
+    ghostarr = new Array;
+    this.color1 = color1;
+    this.color2 = color2;
+    this.color3 = color3;
+}
+
+
 function setupghosts(){
 
     //
-    ghost1.i=0;
-    ghost1.j=0;
-    ghost1.last = 0;
+    ghostarr[0] = new Object();
+    ghostarr[0].i =0;
+    ghostarr[0].j=0;
+    ghostarr[0].last = 0;
+    board[0][0]==3;
     //
-    ghost2.i=0;
-    ghost2.j=board_size-1;
-    ghost2.last = 0;
+    if(ghostnum>=2){
+        ghostarr[1] = new Object();
+        ghostarr[1].i=0;
+        ghostarr[1].j=board_size-1;
+        ghostarr[1].last = 0;
+        board[0][board_size-1]==3;
+    }
     //
-    ghost3.i=board_size-1;
-    ghost3.j=0;
-    ghost3.last = 0;
+    if(ghostnum == 3){
+        ghostarr[2] = new Object();
+        ghostarr[2].i=board_size-1;
+        ghostarr[2].j=0;
+        ghostarr[2].last = 0;
+        board[board_size-1][board_size-1] == 3;
+    }
     //
-    ghost4.i=board_size-1;
-    ghost4.j=board_size-1;
-    ghost4.last = 0;
-    
 
 }
 
@@ -103,7 +125,6 @@ function Start() {
     score = 0;
     pac_color="yellow";
     var cnt = 100;
-    var food_remain = 90;
     var pacman_remain = 1;
     var candy_remain = 1;
     start_time= new Date();
@@ -114,18 +135,20 @@ function Start() {
             //if((i==3 && j==3)||(i==3 && j==4)||(i==3 && j==5)||(i==6 && j==1)||(i==6 && j==2))
             if(board[i][j]==4)
             {
-               // dont do nothing;
+               //  do nothing;
             } 
             else if((i==0 && j==0)||(i==0 && j==board_size-1)||(i==board_size-1 && j==0)||(i==board_size-1 && j==board_size-1))
             {
-                board[i][j] = 3;
+                //  do nothing;
             }
             else if(board[i][j] !=4 && board[i][j] !=4 ) {
             var randomNum = Math.random();
             if (randomNum <= 1.0 * food_remain / cnt) {
                 food_remain--;
-                if(Math.random()<0.1)
+                if(Math.random()<=0.3)
                     board[i][j] = 6;
+                if(Math.random()<=0.6)
+                    board[i][j] = 7;
                 else        
                     board[i][j] = 1;
             } else if (randomNum < 1.0 * (pacman_remain + food_remain) / cnt) {
@@ -234,7 +257,7 @@ function Draw(position) {
             } else if (board[i][j] == 1) {
                 context.beginPath();
                 context.arc(center.x, center.y, 12, 0, 2 * Math.PI); // circle
-                context.fillStyle = "black"; //color 
+                context.fillStyle = color1; //color 
                 context.fill();
             }
             else if (board[i][j] == 4) {
@@ -258,7 +281,13 @@ function Draw(position) {
             else if(board[i][j]==6){
                 context.beginPath();
                 context.arc(center.x, center.y, 12, 0, 2 * Math.PI); // circle
-                context.fillStyle = "green"; //color 
+                context.fillStyle = color2; //color 
+                context.fill();
+            }
+            else if(board[i][j]==7){
+                context.beginPath();
+                context.arc(center.x, center.y, 12, 0, 2 * Math.PI); // circle
+                context.fillStyle = color3; //color 
                 context.fill();
             }
         }
@@ -311,10 +340,9 @@ function UpdatePosition() {
     board[shape.i][shape.j]=2;
     clockround++;   // ghost move each second
     if(clockround == 4){
-        packdist(ghost1,shape.i,shape.j);
-        packdist(ghost2,shape.i,shape.j);
-        packdist(ghost3,shape.i,shape.j);
-        packdist(ghost4,shape.i,shape.j);
+        for(var i = 0 ; i<ghostarr.length;i++ ){
+        packdist(ghostarr[i],shape.i,shape.j);
+        }
         if(candy)
             move_candy(movcandy);
         clockround=0;
@@ -328,13 +356,12 @@ function UpdatePosition() {
 
         if(life>0){
             lost=false;
-            board[ghost1.i][ghost1.j]=0;
-            board[ghost2.i][ghost2.j]=0;
-            board[ghost3.i][ghost3.j]=0;
-            board[ghost4.i][ghost4.j]=0;
+            for(var i = 0 ;i<ghostarr.length;i++){
+                board[ghostarr[i].i][ghostarr[i].j]=0;
+            }
             Pacstartplace();
             setupghosts();
-            
+        
         }
         else{
             window.clearInterval(interval);
@@ -561,10 +588,10 @@ function loginSuccess(){
     buttonGame.setAttribute
     login.appendChild(buttonGame);
     login.appendChild(buttonSetup);
-    document.getElementById("buttonGame").onclick = function() {
+    buttonGame.onclick = function() {
         Start();
       };
-      document.getElementById("buttonSetup").onclick = function() {
+    buttonSetup.onclick = function() {
         var login=document.getElementById('login');
             
         var form = document.createElement('form');
@@ -572,45 +599,83 @@ function loginSuccess(){
         form.setAttribute('action', 'javascript:Setup()');
         
 
-        var input1 = document.createElement('input');
-        input1.setAttribute('type', 'text');
+        var input1 = document.createElement('select');
+        input1.setAttribute('id','numOfBalls');
+        for(var i=50;i<=90;i++){
+            var option1=document.createElement('option')
+            option1.setAttribute('value',i);
+            option1.text=i;
+            input1.appendChild(option1);
+        }
+       
+        /*input1.setAttribute('type', 'text');
         input1.setAttribute('placeholder', 'Name');
         input1.setAttribute('name', 'routename');
-        input1.setAttribute('id', 'numofBalls');
+        input1.setAttribute('id', 'numofBalls');*/
+
 
         var Color1 = document.createElement('input');
         Color1.setAttribute('type', 'color');
-        Color1.setAttribute('placeholder', 'description');
         Color1.setAttribute('name', 'routedescription');
         Color1.setAttribute('id', 'Color1');
 
         var Color2 = document.createElement('input');
         Color2.setAttribute('type', 'color');
-        Color2.setAttribute('placeholder', 'tags');
         Color2.setAttribute('name', 'routetags');
         Color2.setAttribute('id', 'Color2');
 
         var Color3 = document.createElement('input');
         Color3.setAttribute('type', 'color');
-        Color3.setAttribute('placeholder', 'tags');
         Color3.setAttribute('name', 'routetags');
         Color3.setAttribute('id', 'Color3');
 
-        var submit = document.createElement('input');
-        submit.setAttribute('type', 'submit');
-        submit.setAttribute("value", "Save");
-        submit.setAttribute('id', 'savebutton');
+        var input2 = document.createElement('input');
+        input2.setAttribute('type', 'text');
+        input2.setAttribute('name', 'routename');
+        input2.setAttribute('id', 'gameTime');
 
+        var input3 = document.createElement('select');
+        input3.setAttribute('id','numOfmonsters');
+        for(var i=1;i<=3;i++){
+            var option1=document.createElement('option')
+            option1.setAttribute('value',i);
+            option1.text=i;
+            input3.appendChild(option1);
+        }
+
+        var startButton=document.createElement('button');
+        startButton.setAttribute('id','startButton');
+        startButton.className="btn tertiary";
+        startButton.textContent='Start Game';
+        startButton.onclick=function(){
+            if(input2.value<60){
+                alert('The minimum time for the game is 60 seconds');
+            }
+            setupgame(input3.value,input1.value,input2.value,Color1.value,Color2.value,Color3.value)//ghosts,food,time,color1-3
+            Start();
+        };
+
+        form.appendChild(document.createTextNode('Choose the number of Balls'));
         form.appendChild(input1);
         form.appendChild(document.createElement('br'))
+        form.appendChild(document.createTextNode('Choose the Color of The least significate ball'));
         form.appendChild(Color1);
         form.appendChild(document.createElement('br'))
+        form.appendChild(document.createTextNode('Choose the Color of The average Ball'));
         form.appendChild(Color2);
         form.appendChild(document.createElement('br'))
+        form.appendChild(document.createTextNode('Choose the Color of The most significate Ball'));
         form.appendChild(Color3);     
         form.appendChild(document.createElement('br'))
-        form.appendChild(submit);     
+        form.appendChild(document.createTextNode('Choose Game Time'));
+        form.appendChild(input2);     
+        form.appendChild(document.createElement('br'))
+        form.appendChild(document.createTextNode('Choose Number of Monsters'));
+        form.appendChild(input3); 
+        form.appendChild(document.createElement('br'))
+        form.appendChild(startButton); 
 
+        
         login.appendChild(form);
     };
 }
