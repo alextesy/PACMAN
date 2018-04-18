@@ -132,3 +132,15 @@ li a:hover:not(.active) {
 .btn.tertiary:focus, .btn.tertiary:hover {
   background: #0000FC;
 }
+footer
+{
+  z-index: 10;
+    position: absolute;
+    height: 30px;
+    background: #375f5f;
+    font-family: sans-serif;
+    color : rgb(179, 255, 0);
+    top: 100%;
+    left: 0px;
+    width: 100%;
+}
