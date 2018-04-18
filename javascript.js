@@ -133,12 +133,12 @@ function Start() {
     window.clearInterval(interval);
     $("#wrapper").children().hide();
     $("#game").show();
-    funcLife();
     mySound.play();
     mySound.stop();
     setupghosts();
     clockround = 0;
-    
+    life = 3 ;
+    funcLife();
     var food_remain = foodnum;
     score = 0;
     pac_color="yellow";
