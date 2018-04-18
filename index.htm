@@ -12,8 +12,6 @@
         <link rel="stylesheet" type="text/css" href="model.css" />
         <link rel="stylesheet" type="text/css" href="wellcome.css" />
         <link rel="stylesheet" type="text/css" href="login.css" />
-        <link rel="stylesheet" type="text/css" href="game.css" />
-
 
 
     </head>
@@ -44,8 +42,6 @@
                 <img src="resources/img/pac2.gif"  />
 
         </div>      
-        <footer> The game was created by Alex and Idan. <a href="mailto:kremians@post.bgu.ac.il?subject=RetroPacman">Contact Us.</a></footer>
-
 
 
 
@@ -101,7 +97,7 @@
                <center> <form id="loginForm" action="javascript:checkUser()">
                     User name: <input type="text" id="userName" placeholder=""><br>
                     Password: <input type="password" id="passWord2" placeholder="" ><br>
-                    <input type="submit" id='loginButton' value="Log In!" class="btn secondary">
+                    <input type="submit" value="Log In!" class="btn secondary">
                 </form></center>
         </div>
         <div id="game">
@@ -110,7 +106,7 @@
         </br>
         </br>
         </br>
-       <p id="lblUsername"></p>
+        <center><p id="lblUsername"></p>
             SCORE:
         <input id="lblScore" type="text" />
         <br/>
@@ -119,12 +115,11 @@
         <br/>
         <div id="life"></div>
         
-        <canvas id="canvas" height="800" width="800"></canvas>
-        <button class="push--skeuo" onclick="Start()">Start Again</button> 
-
+        <canvas id="canvas" height="800" width="800"></canvas></center>
+		<div id="setupForm"></div>  
+       
          </div>
         </div>
-
         <script src = "javascript.js"></script>
 
     </body>

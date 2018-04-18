@@ -44,7 +44,7 @@
     var lost = false;
     var life = 3;
 
-function setupgame(ghostnum,foodnum,time,color1,color2,color3,difficulty){
+function setupgame(ghostnum,foodnum,time,color1,color2,color3){
 
     this.ghostnum =ghostnum;
     food_remain = foodnum;
@@ -576,8 +576,6 @@ function checkUser(){
     
 }
 function loginSuccess(){
-    document.getElementById("loginButton").disabled = true;
-
     var login=document.getElementById('login');
     var buttonGame = document.createElement('button');
     var buttonSetup = document.createElement('button');
@@ -598,7 +596,7 @@ function loginSuccess(){
             
         var form = document.createElement('form');
         form.id='setupForm';
-        form.setAttribute('action', 'javascript:checkSetup()');
+        form.setAttribute('action', 'javascript:Setup()');
         
 
         var input1 = document.createElement('select');
@@ -645,27 +643,17 @@ function loginSuccess(){
             input3.appendChild(option1);
         }
 
-        var difficulty = document.createElement('select');
-        difficulty.setAttribute('id','difficulty');
-        var option1=document.createElement('option')
-        option1.setAttribute('value','Easy');
-        option1.text='Easy';
-        difficulty.appendChild(option1);
-        var option2=document.createElement('option')
-        option2.setAttribute('value','Medium');
-        option2.text='Medium';
-        difficulty.appendChild(option2);
-        var option3=document.createElement('option')
-        option3.setAttribute('value','Hard');
-        option3.text='Hard';
-        difficulty.appendChild(option3);
-
-
         var startButton=document.createElement('button');
         startButton.setAttribute('id','startButton');
         startButton.className="btn tertiary";
         startButton.textContent='Start Game';
-       
+        startButton.onclick=function(){
+            if(input2.value<60){
+                alert('The minimum time for the game is 60 seconds');
+            }
+            setupgame(input3.value,input1.value,input2.value,Color1.value,Color2.value,Color3.value)//ghosts,food,time,color1-3
+            Start();
+        };
 
         form.appendChild(document.createTextNode('Choose the number of Balls'));
         form.appendChild(input1);
@@ -685,31 +673,11 @@ function loginSuccess(){
         form.appendChild(document.createTextNode('Choose Number of Monsters'));
         form.appendChild(input3); 
         form.appendChild(document.createElement('br'))
-        form.appendChild(document.createTextNode('Choose Difficulty'));
-        form.appendChild(difficulty); 
-        form.appendChild(document.createElement('br'))
         form.appendChild(startButton); 
 
         
         login.appendChild(form);
     };
-}
-function checkSetup(){
-    var numOfBalls=document.getElementById('numOfBalls');
-    var gameTime=document.getElementById('gameTime');
-    var numOfmonsters=document.getElementById('numOfmonsters');
-    var Color1=document.getElementById('Color1');
-    var Color2=document.getElementById('Color2');
-    var Color3=document.getElementById('Color3');
-    var difficulty=document.getElementById('difficulty');
-
-    if(gameTime.value<60){
-        alert('The minimum time for the game is 60 seconds');
-    }
-    else{
-        setupgame(numOfmonsters.value,numOfBalls.value,gameTime.value,Color1.value,Color2.value,Color3.value,difficulty.value)//ghosts,food,time,color1-3
-        Start();
-    }
 }
 function register() {
     mySound.stop();
@@ -835,4 +803,3 @@ function register() {
         }
                 
       
-        
