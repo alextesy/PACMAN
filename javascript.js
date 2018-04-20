@@ -206,7 +206,7 @@ function Start() {
     addEventListener("keyup", function (e) {
         keysDown[e.keyCode] = false;
     }, false);
-    interval=setInterval(UpdatePosition,125);
+    interval=setInterval(UpdatePosition,150);
 }
 
 
@@ -548,7 +548,7 @@ function packdist(ghost,xp,yp){
             board[xi][yi] = ghost.last;
             if(board[xi][yi-1] == 2)
                 lost= true;
-            if((board[xi][yi-1]!=3) &&(board[xi][yi-1]!=4))    
+            if((board[xi][yi-1]!=3) && (board[xi][yi-1]!=4))    
                 ghost.last = board[xi][yi-1];
             board[xi][yi-1] = 3;
             ghost.j = yi-1;
@@ -769,7 +769,7 @@ function register() {
         $('#registerdiv').show();
         $.validator.addMethod("pwcheck", function(value) {
             return /^[A-Za-z0-9\d=!\-@._*]*$/.test(value) // consists of only these
-            && /[a-z]/.test(value) // has a lowercase letter
+            && /[A-Za-z]/.test(value) // has a lowercase letter
             && /\d/.test(value) // has a digit
             });
             $(function() {
@@ -802,6 +802,9 @@ function register() {
             },
             username:{
             required:true    
+            },
+            birthday:{
+            required:true
             }
             },
             // Specify validation error messages
