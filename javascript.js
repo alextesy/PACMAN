@@ -24,7 +24,9 @@
     var start_time;
     var time_elapsed;    
     var interval;
-    
+    var end_Time;
+    var time_remaining;    
+
     var start_angle=0.15 * Math.PI;
     var end_angle=1.85 * Math.PI;
     var eyeX=5;
@@ -43,19 +45,27 @@
     setupgame(3,90,60,"black","yellow","green","Easy");
     var currentPlayer;
     var mySound = new sound("resources/music/pacman_beginning.wav");
+    var lostLifeSound=new sound("resources/music/pacman_chomp.wav");
+    var gameOverSound=new sound("resources/music/pacman_death.wav");
+    var finish=new sound("resources/music/endLevel.mp3");
     var clockround;
+    
+
     var lost = false;
     var life = 3;
 
-function setupgame(ghostnum,foodnum,time,color1,color2,color3,difficulty){
 
+
+function setupgame(ghostnum,foodnum,time,color1,color2,color3,difficulty){
+    this.gametime=time;
     this.ghostnum =ghostnum;
     this.foodnum = foodnum;
     ghostarr = new Array;
     this.color1 = color1;
     this.color2 = color2;
     this.color3 = color3;
-
+    var colorList = {'Least Significant': this.color1, 'Medium Significancy': this.color2, 'Most Significant':this.color3};
+    colorize(colorList);
     if(difficulty=='Easy'){
         distance =3;
         speed = 4;
@@ -69,7 +79,35 @@ function setupgame(ghostnum,foodnum,time,color1,color2,color3,difficulty){
         speed = 2;
     }
 }
+function deleteElement(element){
+    var container = document.getElementById(element);
+    if(container!=null){
+        var check=container.hasChildNodes();
+        if(check){
+        while (container.firstChild) {
+                container.removeChild(container.firstChild);
+            }
+        }
+    }
+}
+function colorize(colorList) {
+    deleteElement('container');
+    for (var key in colorList) {
+        var boxContainer = document.createElement("DIV");
+        var box = document.createElement("DIV");
+        var label = document.createElement("SPAN");
 
+        label.innerHTML = key;
+        box.className = "box";
+        box.style.backgroundColor = colorList[key];
+
+        boxContainer.appendChild(box);
+        boxContainer.appendChild(label);
+
+        container.appendChild(boxContainer);
+
+    }
+}
 
 function setupghosts(){
 
@@ -113,7 +151,6 @@ function Pacstartplace(){
 }
     
 
-
 function sound(src) {
     this.sound = document.createElement("audio");
     this.sound.src = src;
@@ -122,19 +159,24 @@ function sound(src) {
     this.sound.style.display = "none";
     document.body.appendChild(this.sound);
     this.play = function(){
-        this.sound.loop = true;
         this.sound.play();
     }
+    this.loop=function(){
+        this.sound.loop = true;
+    }
+
     this.stop = function(){
         this.sound.pause();
     }
 }
+
 function Start() {
     window.clearInterval(interval);
+  
     $("#wrapper").children().hide();
     $("#game").show();
     mySound.play();
-    mySound.stop();
+    mySound.loop();
     setupghosts();
     clockround = 0;
     life = 3 ;
@@ -146,7 +188,9 @@ function Start() {
     var pacman_remain = 1;
     var candy_remain = 1;
     var drug_remain = 2;
+    
     start_time= new Date();
+    end_Time=new Date(start_time.getTime()+gametime*1000)
     for (var i = 0; i < board_size; i++) {
         //board[i] = new Array();
         //put obstacles in (i=3,j=3) and (i=3,j=4) and (i=3,j=5), (i=6,j=1) and (i=6,j=2)
@@ -255,8 +299,11 @@ function GetKeyPressed() {
 function Draw(position) {
     canvas.width=canvas.width; //clean board
     
+
     lblScore.value = score;
     lblTime.value = time_elapsed;
+    lblTimeR.value = time_remaining;
+
     document.getElementById("lblUsername").innerHTML = currentPlayer[1][1]+' '+currentPlayer[1][2];
 
     for (var i = 0; i < board_size; i++) {
@@ -290,6 +337,9 @@ function Draw(position) {
                 context.fill();
             }
             else if(board[i][j]==3){
+                    
+
+
                 context.beginPath();
                 context.rect(center.x-30, center.y-30,40,40);
                 context.fillStyle = "blue"; //color
@@ -325,7 +375,6 @@ function Draw(position) {
 
    
 }
-function pacmanDirection(){}
 
 function UpdatePosition() {
     board[shape.i][shape.j]=0;
@@ -401,8 +450,10 @@ function UpdatePosition() {
     }
     var currentTime=new Date();
     time_elapsed=(currentTime-start_time)/1000;
+    time_remaining=(end_Time-currentTime)/1000;
+    
     if(lost){
-       
+        lostLifeSound.play();
         life--;
         funcLife();
         if(life>0){
@@ -415,6 +466,7 @@ function UpdatePosition() {
         
         }
         else{
+            gameOverSound.play();
             window.clearInterval(interval);
             window.alert("You Lost!!");
         }
@@ -424,12 +476,15 @@ function UpdatePosition() {
         pac_color="green";
     }
     if(time_elapsed>gametime){
+        gameOverSound.play();
+
         window.clearInterval(interval);
         window.alert("You can do better!!");
 
     }
     if(score>=(foodnum*0.6*5+foodnum*0.3*15+foodnum*0.1*25)*1.3)
     {
+        finish.play();
         mySound.stop();
         window.clearInterval(interval);
         window.alert("Game completed");
@@ -601,10 +656,21 @@ function wellcome() {
     $("#wellcome").show();
 }
 function login(){
+    document.getElementById("loginButton").disabled=false;
+    document.getElementById('loginForm').reset();
     mySound.stop();
     window.clearInterval(interval);
     $("#wrapper").children().hide();
     $("#login").show();
+
+}
+function clearLogin(){
+    var login=document.getElementById('login');
+    var but1=document.getElementById('buttonGame');
+    var but2=document.getElementById('buttonSetup');
+    login.removeChild(but1);
+    login.removeChild(but2);
+    deleteElement('setupForm');
 
 }
 
@@ -629,6 +695,10 @@ function checkUser(){
 function loginSuccess(){
     document.getElementById("loginButton").disabled = true;
 
+
+
+
+    
     var login=document.getElementById('login');
     var buttonGame = document.createElement('button');
     var buttonSetup = document.createElement('button');
@@ -642,6 +712,7 @@ function loginSuccess(){
     login.appendChild(buttonGame);
     login.appendChild(buttonSetup);
     buttonGame.onclick = function() {
+        clearLogin();
         Start();
       };
     buttonSetup.onclick = function() {
@@ -759,6 +830,7 @@ function checkSetup(){
     }
     else{
         setupgame(numOfmonsters.value,numOfBalls.value,gameTime.value,Color1.value,Color2.value,Color3.value,difficulty.value)//ghosts,food,time,color1-3
+        clearLogin();
         Start();
     }
 }
@@ -893,5 +965,9 @@ function register() {
         
         }
                 
+    
+
+
+
       
         

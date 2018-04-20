@@ -26,7 +26,10 @@
                     <!-- Modal content -->
                     <div class="modal-content">
                       <span class="close">&times;</span>
-                      <p>Some text in the Modal..</p>
+                      <p >ALex Kremiansky And Idan Razy</p>
+                      <p >We used Jquery Validation Plugin</p>
+                      <p >The Hardest Part of the Project was definatly the design</p>
+
                     </div>
                   
             </div>
@@ -43,7 +46,9 @@
                 <li><a id = "about" onclick="modelopen()" href="#">about</a></li>
                 <img src="resources/img/pac2.gif"  />
 
-        </div>      
+        </div>   
+        </br>
+        </br>   
         <footer> The game was created by Alex and Idan. <a href="mailto:kremians@post.bgu.ac.il?subject=RetroPacman">Contact Us.</a></footer>
 
 
@@ -104,23 +109,42 @@
                     <input type="submit" id='loginButton' value="Log In!" class="btn secondary">
                 </form></center>
         </div>
-        <div id="game" height ="1000" width = "1000" >
+        <div id="game">
         </br>
         </br>
         </br>
         </br>
         </br>
-       <p id="lblUsername"></p>
-            SCORE:
-        <input id="lblScore" type="text" />
-        <br/>
-        TIME:
-        <input id="lblTime" type="text" />
-        <br/>
-        <div id="life"></div>
+        <center><table>
+            <tr>
+                <td>
+                    <p id="lblUsername"></p>
+                    SCORE:
+                    <input id="lblScore" type="text" />
+                    <br/>
+                    TIME:
+                    <input id="lblTime" type="text" />
+                    <br/>
+                    TIME Remaining:
+                    <input id="lblTimeR" type="text" />
+                    <br/>
+                    <div id="life"></div>
+                    <div id="container"></div> 
+                </td>
+                <td>
+                    <canvas id="canvas" height="700" width="700"></canvas>
+                </td>
+                <td>
+                    <button class="push--skeuo" onclick="Start()">Start Again</button> </br>
+                    <button class="push--skeuo" onclick="mySound.stop()">No Music</button> 
+
+                </td>
+            </tr>
+        </table></center>
+
+
+      
         
-        <canvas id="canvas" height="800" width="800"></canvas>
-        <button class="push--skeuo" onclick="Start()">Start Again</button> 
 
          </div>
         </div>

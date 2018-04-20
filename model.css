@@ -13,6 +13,9 @@
 
 /* Modal Content/Box */
 .modal-content {
+    background-image: url('resources/img/about3.jpg');
+    font-family: pacFont;
+    color:rgb(217, 255, 0);
     background-color: #fefefe;
     margin: 15% auto; /* 15% from the top and centered */
     padding: 20px;
