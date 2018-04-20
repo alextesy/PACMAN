@@ -71,7 +71,7 @@
             </br>
             </br>
             </br>
-               <form action="javascript:submit()" id="registration" name="registration">
+               <center><form action="javascript:submit()" id="registration" name="registration">
 
                         <label for="username">Username</label>
                         <input type="text" name="username" id="username" placeholder="Doe12">
@@ -94,7 +94,7 @@
                         </br>
                         <input type="submit" value="Register" class="btn secondary"/>
                         </br>   
-                      </form>
+                      </form></center>
                     
         </div>
         <div id="login">
@@ -115,32 +115,40 @@
         </br>
         </br>
         </br>
-        <center><table>
+        
+        <table id="gameTable">
             <tr>
-                <td>
-                    <p id="lblUsername"></p>
+                    <p style="float: left;" id="lblUsername"></p>
+            </tr>
+            <tr>
+                <td id='stats'>
+                    
                     SCORE:
                     <input id="lblScore" type="text" />
                     <br/>
+                    <br/>
+
                     TIME:
                     <input id="lblTime" type="text" />
                     <br/>
+                    <br/>
                     TIME Remaining:
                     <input id="lblTimeR" type="text" />
+                    <br/>
                     <br/>
                     <div id="life"></div>
                     <div id="container"></div> 
                 </td>
                 <td>
-                    <canvas id="canvas" height="700" width="700"></canvas>
+                    <canvas id="canvas" height="800" width="800"></canvas>
                 </td>
                 <td>
                     <button class="push--skeuo" onclick="Start()">Start Again</button> </br>
-                    <button class="push--skeuo" onclick="mySound.stop()">No Music</button> 
+                    <button class="push--skeuo" onclick="mySound.stop()">Mute</button> 
 
                 </td>
             </tr>
-        </table></center>
+        </table>
 
 
       

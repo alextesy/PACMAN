@@ -304,7 +304,7 @@ function Draw(position) {
     lblTime.value = time_elapsed;
     lblTimeR.value = time_remaining;
 
-    document.getElementById("lblUsername").innerHTML = currentPlayer[1][1]+' '+currentPlayer[1][2];
+    document.getElementById("lblUsername").innerHTML = 'Hello ' + currentPlayer[1][1]+' '+currentPlayer[1][2];
 
     for (var i = 0; i < board_size; i++) {
         for (var j = 0; j < board_size; j++) {
@@ -708,7 +708,6 @@ function loginSuccess(){
     buttonGame.id='buttonGame';
     buttonSetup.textContent='Setup';
     buttonSetup.id='buttonSetup';
-    buttonGame.setAttribute
     login.appendChild(buttonGame);
     login.appendChild(buttonSetup);
     buttonGame.onclick = function() {
@@ -720,9 +719,9 @@ function loginSuccess(){
             
         var form = document.createElement('form');
         form.id='setupForm';
-        form.setAttribute('action', 'javascript:checkSetup()');
         
-
+        form.setAttribute('action', 'javascript:checkSetup()');
+        form.setAttribute('style','left:50%;')
         var input1 = document.createElement('select');
         input1.setAttribute('id','numOfBalls');
         for(var i=50;i<=90;i++){

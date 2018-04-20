@@ -39,6 +39,8 @@
   }
   
   .push--skeuo {
+    font-family: arcade;
+     color: yellow;
     box-shadow: inset 0 10px 0 #da2e0b, inset 0 -10px 4px #aa2409, 0 0 4px #c2290a, inset 0 0 8px #791a06, inset 0 0 8px rgba(51, 51, 51, 0.5), inset 0 0 4px 20px #c2290a, inset 0 -8px 6px 24px rgba(51, 51, 51, 0.7), inset 0 0 4px 24px #611405, inset 0 0 4px 24px rgba(51, 51, 51, 0.7), inset 0 0 2px 26.0869565217px black, inset 0 0 2px 30px rgba(247, 133, 110, 0.7), inset 0 12px 0 28.2352941176px rgba(244, 71, 37, 0.7), inset 0 -12px 4px 28.2352941176px rgba(145, 31, 8, 0.2), inset 0 0 0 43.6363636364px #c2290a, inset 0 96px 32px #aa2409, inset 0 0 24px 40px #911f08, 0 6px 12px rgba(0, 0, 0, 0.5);
   }
   .push--skeuo:active, .push--skeuo.is-pushed {
@@ -77,6 +79,17 @@
     height:100vh;
 
   }
-  #lblUsername{
-    top:0;
+  
+  td {
+    position: relative;
+   
+    top: 0%;
+  }
+  #stats{
+    position: relative;
+   
+    top: 0%;
+  }
+  #gameTable{
+    float: left;
   }
