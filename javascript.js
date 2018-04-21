@@ -406,21 +406,21 @@ function UpdatePosition() {
     }
     if(x==2)
     {
-        if(shape.j<board_size-1 &&  board[shape.i][shape.j+1]!=4 && board[shape.i][shape.j-1]!=3)
+        if(shape.j<board_size-1 &&  board[shape.i][shape.j+1]!=4 && board[shape.i][shape.j+1]!=3)
         {
             shape.j++;
         }
     }
     if(x==3)
     {
-        if(shape.i>0 && board[shape.i-1][shape.j]!=4 && board[shape.i][shape.j-1]!=3)
+        if(shape.i>0 && board[shape.i-1][shape.j]!=4 && board[shape.i-1][shape.j]!=3)
         {
             shape.i--;
         }
     }
     if(x==4)
     {
-        if(shape.i<board_size-1 && board[shape.i+1][shape.j]!=4 && board[shape.i][shape.j-1]!=3)
+        if(shape.i<board_size-1 && board[shape.i+1][shape.j]!=4 && board[shape.i+1][shape.j]!=3)
         {
             shape.i++;
         }
@@ -503,7 +503,7 @@ function UpdatePosition() {
         window.alert("You can do better!!");
 
     }
-    if(score>=(foodnum*0.6*5+foodnum*0.3*15+foodnum*0.1*25)*1.3)
+    if(score>=(foodnum*0.6*5+foodnum*0.3*15+foodnum*0.1*25)*1.5)
     {
         finish.play();
         mySound.stop();
