@@ -506,7 +506,7 @@ function UpdatePosition() {
         window.alert("You can do better!!");
 
     }
-    if(score>=(foodnum*0.6*5+foodnum*0.3*15+foodnum*0.1*25)*1.5)
+    if(score>=(foodnum*0.6*5+foodnum*0.3*15+foodnum*0.1*25)*1.4)
     {
         finish.play();
         mySound.stop();
