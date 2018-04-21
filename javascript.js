@@ -334,7 +334,7 @@ function Draw(position) {
             else if (board[i][j] == 4) {
                 context.beginPath();
                 context.rect(center.x-30, center.y-30, 60, 60);
-                context.fillStyle = "grey"; //color 
+                context.fillStyle = "#FAF0E6"; //color 
                 context.fill();
             }
             else if(board[i][j]==3){
@@ -467,8 +467,8 @@ function UpdatePosition() {
         lostLifeSound.play();
         life--;
         funcLife();
+        lost=false;
         if(life>0){
-            lost=false;
             for(var i = 0 ;i<ghostarr.length;i++){
                 board[ghostarr[i].i][ghostarr[i].j]=0;
             }
@@ -480,6 +480,7 @@ function UpdatePosition() {
             gameOverSound.play();
             window.clearInterval(interval);
             window.alert("You Lost!!");
+            board[shape.i][shape.j] = 0;
         }
     }
     if(score>=400&&time_elapsed<=10)
