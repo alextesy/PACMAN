@@ -187,6 +187,9 @@ function Start() {
     $("#game").show();
     mySound.play();
     mySound.loop();
+    if(shape.i){
+        board[shape.i][shape.j] = 0;
+    }
     setupghosts();
     clockround = 0;
     life = 3 ;
@@ -871,6 +874,9 @@ function register() {
             && /[A-Za-z]/.test(value) // has a lowercase letter
             && /\d/.test(value) // has a digit
             });
+        $.validator.addMethod("myemail",function(value){
+            return  /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/.test(value);
+        });
             $(function() {
             // Initialize form validation on the registration form.
             // It has the name attribute "registration"
@@ -892,7 +898,8 @@ function register() {
             required: true,
             // Specify that email should be validated
             // by the built-in "email" rule
-            email: true
+            //email: true,
+            myemail:true
             },
             password: {
             required: true,
