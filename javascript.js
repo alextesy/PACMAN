@@ -48,6 +48,7 @@
     var lostLifeSound=new sound("resources/music/pacman_chomp.wav");
     var gameOverSound=new sound("resources/music/pacman_death.wav");
     var finish=new sound("resources/music/endLevel.mp3");
+    var cheers = new sound("resources/music/cheers.wav");
     var clockround;
     
 
@@ -338,18 +339,26 @@ function Draw(position) {
             }
             else if(board[i][j]==3){
                     
-
-
+                var base_image = new Image();
+                base_image.src = "resources/img/ghost3.png";
+                context.drawImage(base_image,center.x-30, center.y-30,40,40);
+                /*
                 context.beginPath();
                 context.rect(center.x-30, center.y-30,40,40);
                 context.fillStyle = "blue"; //color
                 context.fill();
+                */
             }
             else if(board[i][j]==5){
-                context.beginPath();
+               
+                var base_image = new Image();
+                base_image.src = "resources/img/candy.png";
+                context.drawImage(base_image,center.x-30, center.y-30,40,40);
+
+               /* context.beginPath();
                 context.rect(center.x-30, center.y-30,40,40);
                 context.fillStyle = "red"; //color
-                context.fill();
+                context.fill();*/
             }
             else if(board[i][j]==6){
                 context.beginPath();
@@ -366,7 +375,7 @@ function Draw(position) {
             else if(board[i][j]==8){
 
                 var base_image = new Image();
-                base_image.src = "resources/img/pill.png";
+                base_image.src = "resources/img/med.png";
                 context.drawImage(base_image,center.x, center.y,30,30);
                   
             }
@@ -431,10 +440,12 @@ function UpdatePosition() {
     {   
         candy = false;
         score = score +50;
+        cheers.play();
     }
     if(board[shape.i][shape.j]==8)
     {   
         life++;
+        cheers.play();
         funcLife();
     }
 
@@ -964,6 +975,7 @@ function register() {
         
         }
                 
+  
     
 
 
