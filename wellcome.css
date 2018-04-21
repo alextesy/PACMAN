@@ -6,9 +6,16 @@
     background-color: #29170B;
     position:fixed;
     background-position: center; 
-
     width: 100%;
     height: 100%;
+}
+#wellcomebutt{
+
+    position: absolute;
+    top:59%;
+    left:43%;
+
+    
 }
 #butable{
     position: fixed;
@@ -19,10 +26,10 @@
     font-family: arcade;
     color: rgb(238, 255, 0);
     font-size: 10px;
-    margin: 20px 0 0 20px;
+    /*margin: 20px 0 0 20px;*/
     border: none;
-    width: 4em;
-    height: 3.5em;
+    width: 15%;
+    height: 3.5%;
     position: relative;
     background-color: #3232c8;
     -moz-border-radius: 50% 50%;

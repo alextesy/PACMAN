@@ -18,7 +18,7 @@ src: url('resources/font/arcade.ttf');
 }
 body{
 	background-color: rgb(66, 40, 40);
-
+  zoom:90%;
 }
 #wrapper{
 	font-family: arcade;

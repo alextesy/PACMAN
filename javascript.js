@@ -1,4 +1,13 @@
 
+    $(document).ready(function(){
+
+        window.resizeTo(1680,1050);
+
+    });
+
+
+    
+
     var canvas = document.getElementById("canvas");
     var context = canvas.getContext("2d");
     var shape=new Object();
@@ -68,7 +77,7 @@ function setupgame(ghostnum,foodnum,time,color1,color2,color3,difficulty){
     var colorList = {'Least Significant': this.color1, 'Medium Significancy': this.color2, 'Most Significant':this.color3};
     colorize(colorList);
     if(difficulty=='Easy'){
-        distance =3;
+        distance =4;
         speed = 4;
     }
     if(difficulty=='Medium'){
