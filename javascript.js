@@ -680,6 +680,7 @@ function login(){
     document.getElementById("loginButton").disabled=false;
     document.getElementById('loginForm').reset();
     mySound.stop();
+    clearLogin();
     window.clearInterval(interval);
     $("#wrapper").children().hide();
     $("#login").show();
@@ -689,9 +690,15 @@ function clearLogin(){
     var login=document.getElementById('login');
     var but1=document.getElementById('buttonGame');
     var but2=document.getElementById('buttonSetup');
-    login.removeChild(but1);
-    login.removeChild(but2);
-    deleteElement('setupForm');
+    var setupForm=document.getElementById('setupForm');
+
+    if(but1!=null)
+        login.removeChild(but1);
+    if(but2!=null)
+        login.removeChild(but2);
+    if(setupForm!=null)
+        login.removeChild(setupForm);
+    //deleteElement('setupForm');
 
 }
 
