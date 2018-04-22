@@ -500,10 +500,17 @@ function UpdatePosition() {
         pac_color="green";
     }
     if(time_elapsed>gametime){
-        gameOverSound.play();
+        if(score>150){
+            finish.play();
+            window.alert("We have a winner!!");
+        }
+        else{
+            window.alert("You can do better!!");
+            gameOverSound.play();
+
+        }
 
         window.clearInterval(interval);
-        window.alert("You can do better!!");
 
     }
     if(score>=(foodnum*0.6*5+foodnum*0.3*15+foodnum*0.1*25)*1.4)
